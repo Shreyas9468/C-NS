@@ -1,30 +1,19 @@
 package assignment3;
 
 public class ExtendedEuclideanAlgorithm {
-    public static int extendedGCD(int a, int b, int[] result) {
-        if (b == 0) {
-            result[0] = 1; // x = 1
-            result[1] = 0; // y = 0
-            return a;
+    public static int[] gcdExtended(int a, int b) {
+        if (a == 0) {
+            return new int[]{b, 0, 1};
         }
-        int[] tempResult = new int[2];
-        int gcd = extendedGCD(b, a % b, tempResult);
-
-        result[0] = tempResult[1];
-        result[1] = tempResult[0] - (a / b) * tempResult[1];
-
-        return gcd;
+        int[] gcd = gcdExtended(b % a, a);
+        return new int[]{gcd[0], gcd[2] - (b / a) * gcd[1], gcd[1]};
     }
 
     public static void main(String[] args) {
-        int a = 56;
-        int b = 98;
-
-        int[] result = new int[2]; // To hold x and y
-        int gcd = ExtendedEuclideanAlgorithm.extendedGCD(a, b, result);
-
-        System.out.println("GCD of " + a + " and " + b + " is: " + gcd);
-        System.out.println("Coefficients x and y are: " + result[0] + ", " + result[1]);
+        int a = 1759;
+        int b = 550;
+        int[] result = gcdExtended(a, b);
+        System.out.println(a + "x" + result[1] + " + " + b + "x" + result[2] + " = " + (a * result[1] + b * result[2]) + " = gcd(" + a + "," + b + ") = " + result[0]);
     }
 }
 

@@ -34,7 +34,7 @@ public class RailFenceCipher {
     }
     public static void main(String[] args) {
         String text = "HELLO";
-        int key = 3;
+        int key = 2;
 
         String encryptedText = RailFenceCipher.encrypt(text, key);
         System.out.println("Encrypted Text: " + encryptedText);
