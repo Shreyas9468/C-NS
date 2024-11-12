@@ -18,23 +18,22 @@ public class RSA {
     private BigInteger d;
     private int maxLength = 1024;
     private Random R;
-    public RSA()
-    {
+
+    public RSA() {
         R = new Random();
         P = BigInteger.probablePrime(maxLength, R);
         Q = BigInteger.probablePrime(maxLength, R);
         N = P.multiply(Q);
-        PHI = P.subtract(BigInteger.ONE).multiply(  Q.subtract(BigInteger.ONE));
+        PHI = P.subtract(BigInteger.ONE).multiply(Q.subtract(BigInteger.ONE));
         e = BigInteger.probablePrime(maxLength / 2, R);
-        while (PHI.gcd(e).compareTo(BigInteger.ONE) > 0 && e.compareTo(PHI) < 0)
-        {
+        while (PHI.gcd(e).compareTo(BigInteger.ONE) > 0 && e.compareTo(PHI) < 0) {
             e.add(BigInteger.ONE);
         }
         d = e.modInverse(PHI);
+        System.out.println("Value of e : " + e + "\n value of d : " + d);
     }
 
-    public static void main (String [] arguments) throws IOException
-    {
+    public static void main(String[] arguments) throws IOException {
         RSA rsa = new RSA();
         DataInputStream input = new DataInputStream(System.in);
         String inputString;
@@ -52,25 +51,21 @@ public class RSA {
         System.out.println("Plain message is: " + new String(plain));
     }
 
-    private static String bToS(byte[] cipher)
-    {
+    private static String bToS(byte[] cipher) {
         String temp = "";
-        for (byte b : cipher)
-        {
+        for (byte b : cipher) {
             temp += Byte.toString(b);
         }
         return temp;
     }
 
     // Encrypting the message
-    public byte[] encryptMessage(byte[] message)
-    {
+    public byte[] encryptMessage(byte[] message) {
         return (new BigInteger(message)).modPow(e, N).toByteArray();
     }
 
     // Decrypting the message
-    public byte[] decryptMessage(byte[] message)
-    {
+    public byte[] decryptMessage(byte[] message) {
         return (new BigInteger(message)).modPow(d, N).toByteArray();
     }
 
